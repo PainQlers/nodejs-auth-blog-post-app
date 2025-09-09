@@ -2,8 +2,10 @@ import { Router } from "express";
 import { db } from "../utils/db.js";
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken";
+import { protect } from "../middlewares/protect.js";
 
 const authRouter = Router();
+
 
 // 🐨 Todo: Exercise #1
 // ให้สร้าง API เพื่อเอาไว้ Register ตัว User แล้วเก็บข้อมูลไว้ใน Database ตามตารางที่ออกแบบไว้
@@ -49,13 +51,13 @@ authRouter.post("/login", async (req, res) => {
 
     const token = jwt.sign(
         {
-            id: user.id,
+            id: user._id,
             firstName: user.firstName,
             lastName: user.lastName
         },
         process.env.SECRET_KEY,
         {
-            expiresIn: "900000",
+            expiresIn: "15m",
         }
     );
 
